@@ -18,22 +18,22 @@
         console.log("Preparing to submit data to the Google Form");
 
         // collecting all data into an object
-        const formDetails = {
-          email: formData.email,
-          subject: formData.subject,
-          note: formData.note,
-        };
+        const formDetails = {}
+        formDetails[EMAIL_FORM_ID] = formData.email;
+        formDetails[SUBJECT_FORM_ID] = formData.subject;
+        formDetails[NOTE_FORM_ID] = formData.note;
         // convert the javascript formDetails object to URL string for POST request
         const formBodyString = new URLSearchParams(formDetails).toString();
+        // uncomment to see the url encoded string
+        // console.log(formBodyString)
 
         // posting data to our google form
         fetch(FORM_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
           },
-          mode: 'cors',
+          mode: 'no-cors',
           body: formBodyString,
         }).then(() => {
           console.log("Success!")
