@@ -2,35 +2,102 @@
 <html lang="en" class="h-full antialiased js-focus-visible">
   <head>
     <meta charset="utf-8" />
-    <title>Example No Backend Forms Website</title>
+    <title>No Backend Forms</title>
     <link rel="stylesheet" href="styles/output.css" />
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script>
+      const FORM_URL =
+        "https://docs.google.com/forms/u/1/d/e/1FAIpQLSdy3I65AZ0NO63YsL8kw9WQM4zHBXM3SVWsBzFBYmdNNpEI1A/formResponse";
+      const EMAIL_FORM_ID = "entry.1962322928"; // the google form entry field for email
+      const SUBJECT_FORM_ID = "entry.1241410645"; // the google form entry field for subject
+      const NOTE_FORM_ID = "entry.515916046"; // the google form entry field for note
+      function submitForm(formData) {
+        console.log(
+          `Received - email: ${formData.email}; subject: ${formData.subject}; note: ${formData.note}`
+        );
+        console.log("Preparing to submit data to the Google Form");
+
+        // collecting all data into an object
+        const formDetails = {
+          email: formData.email,
+          subject: formData.subject,
+          note: formData.note,
+        };
+        // convert the javascript formDetails object to URL string for POST request
+        const formBodyString = new URLSearchParams(formDetails).toString();
+
+        // posting data to our google form
+        fetch(FORM_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "Access-Control-Allow-Origin": "*",
+          },
+          mode: 'cors',
+          body: formBodyString,
+        }).then(() => {
+          console.log("Success!")
+        });
+      }
+    </script>
   </head>
 
-  <body class="antialiased text-gray-900 px-6">
-    <div class="max-w-xl mx-auto py-12 md:max-w-4xl">
+  <body class="antialiased text-gray-900">
+    <div
+      class="max-w-xl mx-auto py-12 md:max-w-4xl px-6"
+      x-data="{
+      email: '',
+      subject: '',
+      note: ''
+    }"
+    >
       <h2 class="text-2xl font-bold">Custom Form</h2>
       <p class="mt-2 text-lg text-gray-500">
         Please fill out the following details
       </p>
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <div class="grid grid-cols-1 gap-6">
-          <label class="block">
-            <span class="text-gray-700">Input (text)</span>
-            <input
-              type="text"
-              class="form-input mt-1 block w-full"
-              placeholder="john@example.com"
-            />
-          </label>
-          <label class="block">
-            <span class="text-gray-700">Textarea</span>
-            <textarea
-              class="form-textarea mt-1 block w-full h-24"
-              rows="3"
-              placeholder="Enter some long form content."
-            ></textarea>
-          </label>
-      </div>
+      <form
+        class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
+        @submit.prevent="submitForm($data)"
+      >
+        <label class="block col-span-1">
+          <span class="text-gray-700">Email</span>
+          <input
+            type="text"
+            class="form-input mt-1 block w-full"
+            name="form-email"
+            required
+            x-model="email"
+            placeholder="john@example.com"
+          />
+        </label>
+        <label class="block col-span-1">
+          <span class="text-gray-700">Subject</span>
+          <input
+            type="text"
+            class="form-input mt-1 block w-full"
+            name="form-subject"
+            required
+            x-model="subject"
+            placeholder="Greetings"
+          />
+        </label>
+        <label class="block col-span-1 md:col-span-2">
+          <span class="text-gray-700">Note</span>
+          <textarea
+            class="form-textarea mt-1 block w-full h-24"
+            rows="3"
+            name="form-note"
+            required
+            x-model="note"
+            placeholder="Enter some long form content."
+          ></textarea>
+        </label>
+        <button
+          class="bg-gray-700 hover:bg-gray-800 text-white w-32 p-2 rounded-sm"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   </body>
 </html>
