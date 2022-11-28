@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased js-focus-visible">
+  <head>
+    <meta charset="utf-8" />
+    <title>Example No Backend Forms Website</title>
+    <link rel="stylesheet" href="styles/output.css" />
+  </head>
+
+  <body class="antialiased text-gray-900 px-6">
+    <div class="max-w-xl mx-auto py-12 md:max-w-4xl">
+      <h2 class="text-2xl font-bold">Custom Form</h2>
+      <p class="mt-2 text-lg text-gray-500">
+        Please fill out the following details
+      </p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div class="grid grid-cols-1 gap-6">
+          <label class="block">
+            <span class="text-gray-700">Input (text)</span>
+            <input
+              type="text"
+              class="form-input mt-1 block w-full"
+              placeholder="john@example.com"
+            />
+          </label>
+          <label class="block">
+            <span class="text-gray-700">Textarea</span>
+            <textarea
+              class="form-textarea mt-1 block w-full h-24"
+              rows="3"
+              placeholder="Enter some long form content."
+            ></textarea>
+          </label>
+      </div>
+    </div>
+  </body>
+</html>

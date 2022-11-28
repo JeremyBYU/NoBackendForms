@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev:css": "tailwindcss -i styles/input.css -o styles/output.css --watch",
+    "prod:css": "tailwindcss -i styles/input.css -o styles/output.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.8",
+    "tailwindcss": "^3.2.4"
+  }
+}
