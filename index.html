@@ -18,7 +18,7 @@
         console.log("Preparing to submit data to the Google Form");
 
         // collecting all data into an object
-        const formDetails = {}
+        const formDetails = {};
         formDetails[EMAIL_FORM_ID] = formData.email;
         formDetails[SUBJECT_FORM_ID] = formData.subject;
         formDetails[NOTE_FORM_ID] = formData.note;
@@ -31,73 +31,139 @@
         fetch(FORM_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
           },
-          mode: 'no-cors',
+          mode: "no-cors",
           body: formBodyString,
         }).then(() => {
-          console.log("Success!")
+          console.log("Success!");
+          // show message
+          formData.showMessage = true;
+          // remove message in 2 seconds
+          setTimeout(() => formData.showMessage = false, 2000);
         });
       }
     </script>
   </head>
 
   <body class="antialiased text-gray-900">
-    <div
-      class="max-w-xl mx-auto py-12 md:max-w-4xl px-6"
-      x-data="{
+    <div class="max-w-xl mx-auto py-12 md:max-w-4xl px-6">
+      <section
+        x-data="{
+      email: '',
+      subject: '',
+      note: '',
+      showMessage: false
+    }"
+      >
+        <h2 class="text-2xl font-bold">No Backend Form</h2>
+        <p class="mt-2 text-lg text-gray-500">
+          Please fill out the following details which will submit to Google
+          Forms
+        </p>
+        <form
+          class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
+          @submit.prevent="submitForm($data)"
+        >
+          <label class="block col-span-1">
+            <span class="text-gray-700">Email</span>
+            <input
+              type="text"
+              class="form-input mt-1 block w-full"
+              name="form-email"
+              required
+              x-model="email"
+              placeholder="john@example.com"
+            />
+          </label>
+          <label class="block col-span-1">
+            <span class="text-gray-700">Subject</span>
+            <input
+              type="text"
+              class="form-input mt-1 block w-full"
+              name="form-subject"
+              required
+              x-model="subject"
+              placeholder="Greetings"
+            />
+          </label>
+          <label class="block col-span-1 md:col-span-2">
+            <span class="text-gray-700">Note</span>
+            <textarea
+              class="form-textarea mt-1 block w-full h-24"
+              rows="3"
+              name="form-note"
+              required
+              x-model="note"
+              placeholder="Enter some long form content."
+            ></textarea>
+          </label>
+          <button
+            class="bg-gray-700 hover:bg-gray-800 text-white w-32 p-2 rounded-sm"
+          >
+            Submit
+          </button>
+          <div class="inline-flex items-center justify-center bg-green-600 text-white w-48 p-2 rounded-sm" :class="showMessage ? 'block': 'hidden'">
+              It worked!
+          </div>
+        </form>
+      </section>
+
+      <section
+        class="mt-10"
+        x-data="{
       email: '',
       subject: '',
       note: ''
     }"
-    >
-      <h2 class="text-2xl font-bold">Custom Form</h2>
-      <p class="mt-2 text-lg text-gray-500">
-        Please fill out the following details
-      </p>
-      <form
-        class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
-        @submit.prevent="submitForm($data)"
       >
-        <label class="block col-span-1">
-          <span class="text-gray-700">Email</span>
-          <input
-            type="text"
-            class="form-input mt-1 block w-full"
-            name="form-email"
-            required
-            x-model="email"
-            placeholder="john@example.com"
-          />
-        </label>
-        <label class="block col-span-1">
-          <span class="text-gray-700">Subject</span>
-          <input
-            type="text"
-            class="form-input mt-1 block w-full"
-            name="form-subject"
-            required
-            x-model="subject"
-            placeholder="Greetings"
-          />
-        </label>
-        <label class="block col-span-1 md:col-span-2">
-          <span class="text-gray-700">Note</span>
-          <textarea
-            class="form-textarea mt-1 block w-full h-24"
-            rows="3"
-            name="form-note"
-            required
-            x-model="note"
-            placeholder="Enter some long form content."
-          ></textarea>
-        </label>
-        <button
-          class="bg-gray-700 hover:bg-gray-800 text-white w-32 p-2 rounded-sm"
-        >
-          Submit
-        </button>
-      </form>
+        <h2 class="text-2xl font-bold">Simple Mailto Form</h2>
+        <p class="mt-2 text-lg text-gray-500">
+          Please fill out the following details which use the
+          <code>mailto</code> attribute
+        </p>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <label class="block col-span-1">
+            <span class="text-gray-700">Email</span>
+            <input
+              type="text"
+              class="form-input mt-1 block w-full"
+              name="form-email"
+              required
+              x-model="email"
+              placeholder="john@example.com"
+            />
+          </label>
+          <label class="block col-span-1">
+            <span class="text-gray-700">Subject</span>
+            <input
+              type="text"
+              class="form-input mt-1 block w-full"
+              name="form-subject"
+              required
+              x-model="subject"
+              placeholder="Greetings"
+            />
+          </label>
+          <label class="block col-span-1 md:col-span-2">
+            <span class="text-gray-700">Note</span>
+            <textarea
+              class="form-textarea mt-1 block w-full h-24"
+              rows="3"
+              name="form-note"
+              required
+              x-model="note"
+              placeholder="Enter some long form content."
+            ></textarea>
+          </label>
+          <a
+            :href="`mailto:${email}?subject=${subject}&body=${note}`"
+            class="inline-flex items-center justify-center bg-gray-700 hover:bg-gray-800 text-white w-32 p-2 rounded-sm"
+          >
+            Submit
+          </a>
+        </div>
+      </section>
     </div>
   </body>
 </html>
