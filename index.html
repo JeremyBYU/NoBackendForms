@@ -25,7 +25,7 @@
         // convert the javascript formDetails object to URL string for POST request
         const formBodyString = new URLSearchParams(formDetails).toString();
         // uncomment to see the url encoded string
-        // console.log(formBodyString)
+        console.log(formBodyString)
 
         // posting data to our google form
         fetch(FORM_URL, {
@@ -39,6 +39,9 @@
           console.log("Success!");
           // show message
           formData.showMessage = true;
+          formData.email = '';
+          formData.subject = '';
+          formData.note = '';
           // remove message in 2 seconds
           setTimeout(() => formData.showMessage = false, 2000);
         });
@@ -103,7 +106,7 @@
           >
             Submit
           </button>
-          <div class="inline-flex items-center justify-center bg-green-600 text-white w-48 p-2 rounded-sm" :class="showMessage ? 'block': 'hidden'">
+          <div class="inline-flex items-center justify-center bg-green-600 text-white w-48 p-2 rounded-sm" x-show="showMessage">
               It worked!
           </div>
         </form>
@@ -157,7 +160,7 @@
             ></textarea>
           </label>
           <a
-            :href="`mailto:${email}?subject=${subject}&body=${note}`"
+            :href="`mailto:${email}?${new URLSearchParams({subject: subject, body: note}).toString()}`"
             class="inline-flex items-center justify-center bg-gray-700 hover:bg-gray-800 text-white w-32 p-2 rounded-sm"
           >
             Submit
