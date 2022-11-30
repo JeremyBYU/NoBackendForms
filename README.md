@@ -30,7 +30,7 @@ Note the following 'fields` that are in the URL:
 - `entry.1241410645` - subject field
 - `entry.515916046` - note field
 
-Google forms sees `entry.1962322928` as being the email field. Therefore _when_ we construct the URL we will use to POST the data, we must use these fields. The `base url` that we will be using during our HTTP request is ths (note that is slightly modified from above, extra `/u/1` and instead of `viewForm` we do `formResponse`)
+Google forms sees `entry.1962322928` as being the email field. Therefore _when_ we construct the URL we will use to POST the data, we must use these fields. We should use this modified `base url` during our HTTP request (note that it is slightly modified from above, extra `/u/1` and instead of `viewForm` we do `formResponse`)
 
 `https://docs.google.com/forms/u/1/d/e/1FAIpQLSdy3I65AZ0NO63YsL8kw9WQM4zHBXM3SVWsBzFBYmdNNpEI1A/formResponse`.
 
